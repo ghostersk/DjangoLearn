@@ -20,3 +20,10 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+class LoginForm(models.Model):
+    username = models.CharField(max_length=25)
+    alias = models.CharField(max_length=35)
+    email = models.CharField(max_length=200)
+    password =  models.CharField(max_length=200)
+    register_date = models.DateTimeField(default=timezone.now)
