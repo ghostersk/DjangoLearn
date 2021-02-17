@@ -24,3 +24,8 @@ def register(request):
         form = SignUpForm()
     return render(request, 'register.html', {'form': form})
 
+def login(request):
+    
+    form = SignUpForm()
+    return render(request, 'login.html', {'form': form})
+
