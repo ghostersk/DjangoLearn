@@ -1,7 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import Post
-from .forms import RegUser, LogUser
 from django.utils import timezone
 import os
 

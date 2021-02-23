@@ -9,6 +9,8 @@
     </head>
     <body>
         <div class="page-header">
+            <a href="/"><img src="{% static 'image/Gshmag.png' %}" alt="Home Page" style="width:200px;height:30px;"></a>
+            
             <button type="button" style="float:right; margin-right:5%;">
                 <a href="{% url 'admin:index' %}">Admin Login!</a>
             </button>
@@ -18,8 +20,7 @@
             <button type="button" style="float:right; margin-right:5%;">
                 <a href="{% url 'register' %}">Users Register!</a>
             </button>
-            
-            <h1><a href="/">Django Blog</a></h1>
+
         </div>
         <div class="content container">
             <div class="row">

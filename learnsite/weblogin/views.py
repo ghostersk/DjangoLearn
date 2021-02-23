@@ -3,29 +3,26 @@ from django.http import HttpResponse
 from django.utils import timezone
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
-from .forms import SignUpForm
-
-def profile(request, pk):
-    profile = get_object_or_404(SignUpForm, pk=pk)
-    return render(request, 'profile.html', {'profile': profile})
+from .forms import UserFormR
 
 
-
-def register(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
+def register(response):
+    if response.method == "POST":
+        form = UserFormR(response.POST)
         if form.is_valid():
             form.save()
-            raw_password = form.cleaned_data.get('password1')
-            # user = authenticate(username=user.username, password=raw_password)
-            # login(request, user)
-            return redirect('')
+
+        return redirect("/usr/login")
     else:
-        form = SignUpForm()
-    return render(request, 'register.html', {'form': form})
+        form = UserFormR()
+
+    return render(response, "register.html", {"form":form})
 
 def login(request):
     
-    form = SignUpForm()
+    form = UserFormR()
     return render(request, 'login.html', {'form': form})
 
+def profile(request, pk):
+    profile = get_object_or_404(UserFormR, pk=pk)
+    return render(request, 'profile.html', {'profile': profile})
