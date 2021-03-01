@@ -7,10 +7,18 @@ from .forms import UserFormR
 
 
 def register(response):
-    if response.method == "POST":
+    if response.method == "POST":        
         form = UserFormR(response.POST)
-        if form.is_valid():
+        try:
+            form.clean()
+        except:
+            print('errorrrrrrrrrr')
+            form.password = form['password1']
             form.save()
+        else:      
+            if form.is_valid():
+                form.password = form.cleaned_data.get('password1')
+                form.save()
 
         return redirect("/usr/login")
     else:

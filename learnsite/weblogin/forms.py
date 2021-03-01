@@ -20,7 +20,8 @@ class UserFormR(forms.ModelForm):
         help_text=_("Enter the same password as before, for verification."),
     )
 
-    birth_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date', }))  
+    birth_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date', }),
+    help_text = "Please enter your date of birth. Only people 18+ are allowed")  
 
     class Meta:
         model = UserReg
@@ -49,7 +50,7 @@ class UserFormR(forms.ModelForm):
         email = self.cleaned_data.get('email')
         password1 = self.cleaned_data.get('password1')
         password2 = self.cleaned_data.get('password2')
-        birth_date = str(self.cleaned_data.get('birth_date'))
+        birth_date = self.cleaned_data.get('birth_date')
  
         # conditions to be met for user input
         if len(username) < 5:
@@ -64,7 +65,7 @@ class UserFormR(forms.ModelForm):
                 'Alias cannot contain username.'])  
 
         # validate age of user  
-        if self.check_age(birth_date):
+        if self.check_age(str(birth_date)):
             raise ValidationError(_('%(value)s is not an even number'),
                 params={'value': birth_date},
         )
@@ -79,9 +80,17 @@ class UserFormR(forms.ModelForm):
                 'Please provide valid email address'])
         
                 # return any errors if found
-        return self.cleaned_data
+        return self.cleaned_data, self._errors
 
-
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        try:
+            validate_email(email)
+            #school = UserFormR.objects.get(email = email)
+        except ValidationError as e:            
+            raise forms.ValidationError('Please provide valid email address')
+        return email
+        
 def validate_inp(value):
     if value % 2 != 0:
         raise ValidationError(
